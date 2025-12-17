@@ -4,27 +4,39 @@ Feel free to play with things like color or font
 */
 
 html,
-body {
-  padding: 0;
-  margin: 0;
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-image: url("background white2.0.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
 }
 #game {
   margin: 4px;
-  border: 5px solid black;
+  border: 5px gray;
   left: 0;
   position: absolute;
-  background-image: url("paper.gif");
+  background-image: url("background pong.jpg.jpg");
   background-size: cover;
 }
 
 #left-paddle {
-  background-color: yellow;
+  background-color: red;
   left: 10px;
   height: 25px;
 }
 
 #right-paddle {
-  background-color: black;
+  background-color: red;
   right: 10px;
  
   
@@ -77,7 +89,7 @@ body {
 .ball {
   width: 15px;
   height: 15px;
-  background-color: yellow;
+  background-color: white;
   border-radius: 10px;
   position: absolute;
   left: 50px;

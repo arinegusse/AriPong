@@ -1,13 +1,17 @@
-/*This is where the game code takes place
-You'll mainly be adding imports from audio.js or events.js
-and then activating/checking them in the top two sections
-STARTUP EVENTS - things that will run once when the game starts
-RUNNING PROCESSES - things that will run every frame
-*/
+import { ambientSound } from "./pong-audio.js";
 
+let audioStarted = false;
 
-//Import Code From Other JS Modules
-//Sound functions and classes
+async function startAudio() {
+  if (audioStarted) return;
+  audioStarted = true;
+
+  await Tone.start();     // unlock audio
+  ambientSound.play();    // start looping music
+}
+
+window.addEventListener("pointerdown", startAudio, { once: true });
+window.addEventListener("keydown", startAudio, { once: true });
 
 import {
   wallSound,

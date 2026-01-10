@@ -8,6 +8,25 @@ RUNNING PROCESSES - things that will run every frame
 
 //Import Code From Other JS Modules
 //Sound functions and classes
+import { ambientSound } from "./pong-audio.js";
+
+let audioStarted = false;
+
+async function startAudioOnce() {
+  if (audioStarted) return;
+  audioStarted = true;
+
+  try {
+    await Tone.start(); // IMPORTANT: unlocks audio in browser
+    ambientSound.play(); // your tree1.mp3 loop
+  } catch (err) {
+    console.log("Audio start blocked:", err);
+  }
+}
+
+window.addEventListener("pointerdown", startAudioOnce, { once: true });
+window.addEventListener("keydown", startAudioOnce, { once: true });
+
 import {
   wallSound,
   paddleSound,

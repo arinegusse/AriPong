@@ -24,7 +24,6 @@ async function startAudio() {
   if (audioStarted) return;
   audioStarted = true;
 
-  await Tone.start();     // unlock audio
   ambientSound.play();    // start looping music
 }
 
@@ -60,7 +59,6 @@ import {
 } from "./pong-events.js";
 //Utility functions
 import { clamp, scalerange, randomAdjust, boolToOnOff } from "./pong-util.js";
-//import * as Tone from "../lib/Tone.js";
 
 //GAME OBJECTS///DON'T CHANGE THESE
 var updateInterval = 20; //game framerate
@@ -407,7 +405,6 @@ function controlUpdate() {
     muteControl.changedManual = false; //reset mute control state is changed
     volumeUpControl.changedManual = false; //reset volume-up control state is changed
     volumeDownControl.changedManual = false; //reset volume-down control state is changed
-    Tone.Master.mute = game.mute; //set tone.js mute
     if (!game.mute) setVolume(game.volume);
     resetScoreAndBall = false; //reset score and ball detect
   }
@@ -463,5 +460,4 @@ function setVolume(x) {
   game.volume = x;
   game.volume = clamp(x, 0, 10); //clamp volume range
   if (!game.mute)
-    Tone.Master.volume.value = scalerange(game.volume, 0, 10, -40, 0); //scale to dB
 }

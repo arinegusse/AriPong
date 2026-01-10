@@ -1,9 +1,21 @@
 import * as Tone from "./Tone.js";
 
+/* This file creates the sound file players and their default properties.
+   If you create a new player, be sure to import it at the top of index.js!
+*/
+
+class soundFile {
+  constructor(file) {
+    this.deferPlay = false;
+
+    // Use the simple constructor form that works reliably in Tone v14
+    this.player = new Tone.Player("./sounds/" + file).toDestination();
+    this.player.loop = false;
+    this.player.autostart = false;
   }
-  //Play function also with pre-stop and deferred playing
+
+  // Play function with pre-stop and deferred playing
   play() {
-    //defer playback if sound isn't finished loading
     if (this.player.loaded === true) {
       this.deferPlay = false;
       this.player.stop();
@@ -12,45 +24,45 @@ import * as Tone from "./Tone.js";
       this.deferPlay = true;
     }
   }
-  //Stop function that may have easier syntax
+
   stop() {
     this.player.stop();
   }
 }
 
-//Try to play sounds that had their playback deferred
+// Try to play sounds that had their playback deferred
 export function playDeferredSounds() {
-  for (var i = 0; i < soundArray.length; i++) {
+  for (let i = 0; i < soundArray.length; i++) {
     if (soundArray[i].deferPlay === true) {
       soundArray[i].play();
     }
   }
 }
 
-export var soundArray = []; //list of sounds loaded
+export const soundArray = [];
 
-//Here is where all the Sound File Players Start
+// --- Sound players ---
+export const wallSound = new soundFile("wall_hit.wav");
+soundArray.push(wallSound);
 
-export var wallSound = new soundFile("wall_hit.wav"); //load sound
-soundArray.push(wallSound); //add sound to list of sounds
-
-export var paddleSound = new soundFile("paddle_hit.wav");
+export const paddleSound = new soundFile("paddle_hit.wav");
 soundArray.push(paddleSound);
 
-export var scoreSound = new soundFile("score_eerie_low.wav");
+export const scoreSound = new soundFile("score_eerie_low.wav");
 soundArray.push(scoreSound);
 
-export var ambientSound = new soundFile("tree1.mp3");
+export const ambientSound = new soundFile("tree1.mp3");
 soundArray.push(ambientSound);
-ambientSound.player.loop = true; //turn on looping
-ambientSound.player.volume.value = -20; //turn down volume
+ambientSound.player.loop = true;
+ambientSound.player.volume.value = -20;
 
-export var adventureMusic = new soundFile("silence.mp3");
+// Keep these if your teacher’s project expects them
+export const adventureMusic = new soundFile("silence.mp3");
 soundArray.push(adventureMusic);
 adventureMusic.player.loop = true;
 adventureMusic.player.volume.value = -16;
 
-export var villageMusic = new soundFile("silence.mp3");
+export const villageMusic = new soundFile("silence.mp3");
 soundArray.push(villageMusic);
 villageMusic.player.loop = true;
 villageMusic.player.volume.value = -16;

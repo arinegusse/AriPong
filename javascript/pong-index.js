@@ -7,7 +7,7 @@ function startAudioOnce() {
   audioStarted = true;
 
   unlockAudio();
-  ambientSound.play(); // looping background
+  ambientSound.play();
 }
 
 window.addEventListener("pointerdown", startAudioOnce, { once: true });
@@ -17,18 +17,6 @@ import "./pong-audio.js";
 import "./pong-classes.js";
 import "./pong-events.js";
 import "./pong-util.js";
-
-let audioStarted = false;
-
-async function startAudio() {
-  if (audioStarted) return;
-  audioStarted = true;
-
-  ambientSound.play();    // start looping music
-}
-
-window.addEventListener("pointerdown", startAudio, { once: true });
-window.addEventListener("keydown", startAudio, { once: true });
 
 import {
   wallSound,

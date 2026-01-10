@@ -4,6 +4,29 @@ If you create a new player, be sure to import it at the top of index.js!
 
 //import * as Tone from "../lib/Tone.js";
 
+import { ambientSound } from "./pong-audio.js";
+
+let audioStarted = false;
+
+async function startAudioOnce() {
+  if (audioStarted) return;
+  audioStarted = true;
+
+  try {
+    // REQUIRED for Tone.js in modern browsers
+    await Tone.start();
+
+    // Start your looping background sound
+    ambientSound.play();
+  } catch (e) {
+    console.log("Audio could not start:", e);
+  }
+}
+
+// Start audio on first user interaction
+window.addEventListener("pointerdown", startAudioOnce, { once: true });
+window.addEventListener("keydown", startAudioOnce, { once: true });
+
 class soundFile {
   constructor(file, deferPlay) {
     //this.deferPlay = false;

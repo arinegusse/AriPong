@@ -1,22 +1,23 @@
 import * as Tone from "./Tone.js";
 
-/*
-  Audio system for Pong
-  Uses Tone.js v14 in a safe, non-crashing way
-*/
+/* Pong audio (Tone.js v14-safe) */
 
 class SoundFile {
   constructor(file) {
     this.deferPlay = false;
 
-    // Create player using supported Tone v14 syntax
+    // IMPORTANT: do NOT chain .toDestination() on the assignment line
     this.player = new Tone.Player("./sounds/" + file);
     this.player.toDestination();
+
+    // Defaults
     this.player.loop = false;
+    this.player.autostart = false;
   }
 
   play() {
-    if (this.player.loaded) {
+    // defer playback if sound isn't finished loading
+    if (this.player.loaded === true) {
       this.deferPlay = false;
       this.player.stop();
       this.player.start();
@@ -30,16 +31,17 @@ class SoundFile {
   }
 }
 
-// Retry any sounds that tried to play before loading
-export function playDeferredSounds() {
-  soundArray.forEach(sound => {
-    if (sound.deferPlay) sound.play();
-  });
-}
-
 export const soundArray = [];
 
-// ---- GAME SOUNDS ----
+export function playDeferredSounds() {
+  for (let i = 0; i < soundArray.length; i++) {
+    if (soundArray[i].deferPlay === true) {
+      soundArray[i].play();
+    }
+  }
+}
+
+// --- Sounds ---
 export const wallSound = new SoundFile("wall_hit.wav");
 soundArray.push(wallSound);
 
@@ -49,15 +51,18 @@ soundArray.push(paddleSound);
 export const scoreSound = new SoundFile("score_eerie_low.wav");
 soundArray.push(scoreSound);
 
-// ---- AMBIENT LOOP ----
 export const ambientSound = new SoundFile("tree1.mp3");
 soundArray.push(ambientSound);
 ambientSound.player.loop = true;
 ambientSound.player.volume.value = -20;
 
-// ---- UNUSED (kept for compatibility with your project) ----
+// Keep these if your instructor code expects them
 export const adventureMusic = new SoundFile("silence.mp3");
 soundArray.push(adventureMusic);
+adventureMusic.player.loop = true;
+adventureMusic.player.volume.value = -16;
 
 export const villageMusic = new SoundFile("silence.mp3");
 soundArray.push(villageMusic);
+villageMusic.player.loop = true;
+villageMusic.player.volume.value = -16;

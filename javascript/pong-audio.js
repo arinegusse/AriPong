@@ -66,13 +66,13 @@ export var soundArray = []; //list of sounds loaded
 
 //Here is where all the Sound File Players Start
 
-export var wallSound = new soundFile("wall_hit.wav"); //load sound
+export var wallSound = new soundFile("silence.mp3"); //load sound
 soundArray.push(wallSound); //add sound to list of sounds
 
-export var paddleSound = new soundFile("paddle_hit.wav");
+export var paddleSound = new soundFile("silence.mp3");
 soundArray.push(paddleSound);
 
-export var scoreSound = new soundFile("score_eerie_low.wav");
+export var scoreSound = new soundFile("silence.mp3");
 soundArray.push(scoreSound);
 
 export var ambientSound = new soundFile("tree1.mp3");

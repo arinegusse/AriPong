@@ -1,3 +1,18 @@
+import { ambientSound, unlockAudio } from "./pong-audio.js";
+
+let audioStarted = false;
+
+function startAudioOnce() {
+  if (audioStarted) return;
+  audioStarted = true;
+
+  unlockAudio();
+  ambientSound.play(); // looping background
+}
+
+window.addEventListener("pointerdown", startAudioOnce, { once: true });
+window.addEventListener("keydown", startAudioOnce, { once: true });
+
 import "./pong-audio.js";
 import "./pong-classes.js";
 import "./pong-events.js";

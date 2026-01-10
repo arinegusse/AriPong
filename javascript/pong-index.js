@@ -1,4 +1,7 @@
-import { ambientSound } from "./pong-audio.js";
+import "./pong-audio.js";
+import "./pong-classes.js";
+import "./pong-events.js";
+import "./pong-util.js";
 
 let audioStarted = false;
 

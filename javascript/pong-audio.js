@@ -65,16 +65,16 @@ export function unlockAudio() {
 }
 
 // ---- Sounds (make sure these files exist in /sounds/) ----
-export const wallSound = new SoundFile("wall_hit.wav", { volume: 0.6 });
+export const wallSound = new SoundFile("silence.mp3", { volume: 0.6 });
 soundArray.push(wallSound);
 
-export const paddleSound = new SoundFile("paddle_hit.wav", { volume: 0.7 });
+export const paddleSound = new SoundFile("silence.mp3", { volume: 0.7 });
 soundArray.push(paddleSound);
 
-export const scoreSound = new SoundFile("score_eerie_low.wav", { volume: 0.85 });
+export const scoreSound = new SoundFile("silence.mp3", { volume: 0.85 });
 soundArray.push(scoreSound);
 
-export const ambientSound = new SoundFile("tree1.mp3", { loop: true, volume: 0.25 });
+export const ambientSound = new SoundFile("silence.mp3", { loop: true, volume: 0.25 });
 soundArray.push(ambientSound);
 
 // Optional “placeholders” if other files reference them

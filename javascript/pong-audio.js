@@ -1,17 +1,22 @@
 import * as Tone from "./Tone.js";
 
-class soundFile {
+/*
+  Audio system for Pong
+  Uses Tone.js v14 in a safe, non-crashing way
+*/
+
+class SoundFile {
   constructor(file) {
     this.deferPlay = false;
 
-    // Use the simple constructor form that works reliably in Tone v14
+    // Create player using supported Tone v14 syntax
+    this.player = new Tone.Player("./sounds/" + file);
+    this.player.toDestination();
     this.player.loop = false;
-    this.player.autostart = false;
   }
 
-  // Play function with pre-stop and deferred playing
   play() {
-    if (this.player.loaded === true) {
+    if (this.player.loaded) {
       this.deferPlay = false;
       this.player.stop();
       this.player.start();
@@ -25,39 +30,34 @@ class soundFile {
   }
 }
 
-// Try to play sounds that had their playback deferred
+// Retry any sounds that tried to play before loading
 export function playDeferredSounds() {
-  for (let i = 0; i < soundArray.length; i++) {
-    if (soundArray[i].deferPlay === true) {
-      soundArray[i].play();
-    }
-  }
+  soundArray.forEach(sound => {
+    if (sound.deferPlay) sound.play();
+  });
 }
 
 export const soundArray = [];
 
-// --- Sound players ---
-export const wallSound = new soundFile("wall_hit.wav");
+// ---- GAME SOUNDS ----
+export const wallSound = new SoundFile("wall_hit.wav");
 soundArray.push(wallSound);
 
-export const paddleSound = new soundFile("paddle_hit.wav");
+export const paddleSound = new SoundFile("paddle_hit.wav");
 soundArray.push(paddleSound);
 
-export const scoreSound = new soundFile("score_eerie_low.wav");
+export const scoreSound = new SoundFile("score_eerie_low.wav");
 soundArray.push(scoreSound);
 
-export const ambientSound = new soundFile("tree1.mp3");
+// ---- AMBIENT LOOP ----
+export const ambientSound = new SoundFile("tree1.mp3");
 soundArray.push(ambientSound);
 ambientSound.player.loop = true;
 ambientSound.player.volume.value = -20;
 
-// Keep these if your teacher’s project expects them
-export const adventureMusic = new soundFile("silence.mp3");
+// ---- UNUSED (kept for compatibility with your project) ----
+export const adventureMusic = new SoundFile("silence.mp3");
 soundArray.push(adventureMusic);
-adventureMusic.player.loop = true;
-adventureMusic.player.volume.value = -16;
 
-export const villageMusic = new soundFile("silence.mp3");
+export const villageMusic = new SoundFile("silence.mp3");
 soundArray.push(villageMusic);
-villageMusic.player.loop = true;
-villageMusic.player.volume.value = -16;

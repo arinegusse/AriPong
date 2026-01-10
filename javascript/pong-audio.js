@@ -1,85 +1,68 @@
-// Native browser audio (no Tone.js)
-// pong-audio.js lives in /javascript, sounds live in /sounds, so use ../sounds/
-const SOUND_BASE = "../sounds/";
+/*This File creates the sound file players and their default properties
+If you create a new player, be sure to import it at the top of index.js!
+*/
 
-class SoundFile {
-  constructor(file, { loop = false, volume = 0.6 } = {}) {
-    this.file = file;
-    this.deferPlay = false;
+//import * as Tone from "../lib/Tone.js";
 
-    this.audio = new Audio(SOUND_BASE + file);
-    this.audio.preload = "auto";
-    this.audio.loop = loop;
-    this.audio.volume = volume;
+class soundFile {
+  constructor(file, deferPlay) {
+    //this.deferPlay = false;
+    this.player = new Tone.Player({
+      url: "./sounds/" + file,
+      loop: false,
+      autostart: false
+    }).toMaster();
   }
-
+  //Play function also with pre-stop and deferred playing
   play() {
-    // Restart sound cleanly
-    try {
-      this.audio.currentTime = 0;
-    } catch {}
-
-    // Play; if blocked (autoplay rules), mark deferred
-    const p = this.audio.play();
-    if (p && typeof p.catch === "function") {
-      p.catch(() => {
-        this.deferPlay = true;
-      });
+    //defer playback if sound isn't finished loading
+    if (this.player.loaded === true) {
+      this.deferPlay = false;
+      this.player.stop();
+      this.player.start();
+    } else {
+      this.deferPlay = true;
     }
   }
-
+  //Stop function that may have easier syntax
   stop() {
-    try {
-      this.audio.pause();
-      this.audio.currentTime = 0;
-    } catch {}
+    this.player.stop();
   }
 }
 
-export const soundArray = [];
-
-// Try to play sounds that were blocked before user gesture
+//Try to play sounds that had their playback deferred
 export function playDeferredSounds() {
-  for (const s of soundArray) {
-    if (s.deferPlay) {
-      s.deferPlay = false;
-      s.play();
+  for (var i = 0; i < soundArray.length; i++) {
+    if (soundArray[i].deferPlay === true) {
+      soundArray[i].play();
     }
   }
 }
 
-// Unlock audio on first user gesture (helps Safari/Chrome policies)
-export function unlockAudio() {
-  // Prime audio elements (play/pause quickly)
-  for (const s of soundArray) {
-    try {
-      const p = s.audio.play();
-      if (p && typeof p.then === "function") {
-        p.then(() => {
-          s.audio.pause();
-          s.audio.currentTime = 0;
-        }).catch(() => {});
-      }
-    } catch {}
-  }
-}
+export var soundArray = []; //list of sounds loaded
 
-// ---- Sounds (make sure these files exist in /sounds/) ----
-export const wallSound = new SoundFile("silence.mp3", { volume: 0.6 });
-soundArray.push(wallSound);
+//Here is where all the Sound File Players Start
 
-export const paddleSound = new SoundFile("silence.mp3", { volume: 0.7 });
+export var wallSound = new soundFile("silence.mp3"); //load sound
+soundArray.push(wallSound); //add sound to list of sounds
+
+export var paddleSound = new soundFile("silence.mp3");
 soundArray.push(paddleSound);
 
-export const scoreSound = new SoundFile("silence.mp3", { volume: 0.85 });
+export var scoreSound = new soundFile("silence.mp3");
 soundArray.push(scoreSound);
 
-export const ambientSound = new SoundFile("silence.mp3", { loop: true, volume: 0.25 });
+export var ambientSound = new soundFile("brown.mp3");
 soundArray.push(ambientSound);
+ambientSound.player.loop = true; //turn on looping
+ambientSound.player.volume.value = -20; //turn down volume
 
-// Optional “placeholders” if other files reference them
-export const adventureMusic = new SoundFile("silence.mp3", { loop: true, volume: 0.0 });
+export var adventureMusic = new soundFile("silence.mp3");
 soundArray.push(adventureMusic);
+adventureMusic.player.loop = true;
+adventureMusic.player.volume.value = -16;
 
-export const villageMusic = new SoundFile("silence.mp3", { loop: true, volume: 0.0 });
+export var villageMusic = new soundFile("silence.mp3");
 soundArray.push(villageMusic);
+villageMusic.player.loop = true;
+villageMusic.player.volume.value = -16;

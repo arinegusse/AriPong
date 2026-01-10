@@ -1,12 +1,5 @@
 import * as Tone from "./Tone.js";
 
-class soundFile {
-  constructor(file, deferPlay) {
-    //this.deferPlay = false;
- this.player = new Tone.Player("./sounds/" + file).toDestination();
-this.player.loop = false;
-this.player.autostart = false;
-
   }
   //Play function also with pre-stop and deferred playing
   play() {

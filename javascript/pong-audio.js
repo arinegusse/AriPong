@@ -5,7 +5,6 @@ class soundFile {
     this.deferPlay = false;
 
     // Use the simple constructor form that works reliably in Tone v14
-    this.player = new Tone.Player("./sounds/" + file).toDestination();
     this.player.loop = false;
     this.player.autostart = false;
   }
